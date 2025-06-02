@@ -55,9 +55,23 @@ allOpen {
 sourceSets {
 	create("functional") {
 		java.srcDirs("src/functional/groovy")
+		resources.srcDir("src/functional/resources")
 		compileClasspath += sourceSets["main"].output + configurations.testRuntimeClasspath.get()
 		runtimeClasspath += output + compileClasspath
 	}
+}
+
+configurations {
+	getByName("functionalImplementation").extendsFrom(configurations.testImplementation.get())
+	getByName("functionalRuntimeOnly").extendsFrom(configurations.testRuntimeOnly.get())
+}
+
+tasks.register<Test>("functionalTest") {
+	description = "Runs functional tests"
+	group = "verification"
+	testClassesDirs = sourceSets["functional"].output.classesDirs
+	classpath = sourceSets["functional"].runtimeClasspath
+	useJUnitPlatform()
 }
 
 tasks.withType<Test> {
