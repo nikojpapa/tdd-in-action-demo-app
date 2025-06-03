@@ -1,4 +1,4 @@
-package com.nvoulgaris.taskmanager
+package com.nvoulgaris.taskmanager.domain.task.validation
 
 import com.nvoulgaris.taskmanager.domain.task.Task
 import com.nvoulgaris.taskmanager.domain.task.TaskStatus

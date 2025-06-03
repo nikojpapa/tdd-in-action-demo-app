@@ -3,6 +3,7 @@ package com.nvoulgaris.taskmanager.infrastructure
 import com.nvoulgaris.taskmanager.domain.task.Task
 import com.nvoulgaris.taskmanager.domain.task.TaskRepository
 import org.springframework.stereotype.Repository
+import java.util.UUID
 
 @Repository
 class TaskRepositoryImpl : TaskRepository {
@@ -13,4 +14,7 @@ class TaskRepositoryImpl : TaskRepository {
     tasks.add(task)
     return task
   }
+
+  override fun findById(taskId: UUID): Task? =
+    tasks.firstOrNull { it.id == taskId }
 }

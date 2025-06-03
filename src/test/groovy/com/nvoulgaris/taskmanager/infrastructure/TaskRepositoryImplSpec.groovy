@@ -24,4 +24,19 @@ class TaskRepositoryImplSpec extends Specification {
     then:
       savedTask == task
   }
+
+  def "Should fetch a task by its ID"() {
+    given:
+      UUID taskId = UUID.randomUUID()
+      Task expectedTask = new Task(taskId, "Clean apartment", TODO, UUID.randomUUID(), false)
+
+    and:
+      taskRepository.save(expectedTask)
+
+    when:
+      Task actualTask = taskRepository.findById(taskId)
+
+    then:
+      actualTask == expectedTask
+  }
 }

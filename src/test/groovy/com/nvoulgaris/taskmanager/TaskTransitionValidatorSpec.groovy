@@ -1,6 +1,12 @@
 package com.nvoulgaris.taskmanager
 
 import com.nvoulgaris.taskmanager.domain.task.Task
+import com.nvoulgaris.taskmanager.domain.task.validation.TaskMustBeAssignedRule
+import com.nvoulgaris.taskmanager.domain.task.validation.TaskMustNotBeBlockedRule
+import com.nvoulgaris.taskmanager.domain.task.validation.TaskMustNotBeDoneRule
+import com.nvoulgaris.taskmanager.domain.task.validation.TaskTransitionValidator
+import com.nvoulgaris.taskmanager.domain.task.validation.TitleMustBeAtLeastThreeCharactersLongRule
+import com.nvoulgaris.taskmanager.domain.task.validation.TitleMustNotBeBlankRule
 import spock.lang.Specification
 
 import static com.nvoulgaris.taskmanager.domain.task.TaskStatus.DONE
