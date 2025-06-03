@@ -1,10 +1,11 @@
 package com.nvoulgaris.taskmanager
 
+import com.nvoulgaris.taskmanager.domain.task.Task
 import spock.lang.Specification
 
-import static com.nvoulgaris.taskmanager.TaskStatus.DONE
-import static com.nvoulgaris.taskmanager.TaskStatus.IN_PROGRESS
-import static com.nvoulgaris.taskmanager.TaskStatus.TODO
+import static com.nvoulgaris.taskmanager.domain.task.TaskStatus.DONE
+import static com.nvoulgaris.taskmanager.domain.task.TaskStatus.IN_PROGRESS
+import static com.nvoulgaris.taskmanager.domain.task.TaskStatus.TODO
 
 class TaskTransitionValidatorSpec extends Specification {
 

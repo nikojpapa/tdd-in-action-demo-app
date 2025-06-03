@@ -1,6 +1,8 @@
 package com.nvoulgaris.taskmanager
 
-import com.nvoulgaris.taskmanager.TaskStatus.IN_PROGRESS
+import com.nvoulgaris.taskmanager.domain.task.Task
+import com.nvoulgaris.taskmanager.domain.task.TaskStatus
+import com.nvoulgaris.taskmanager.domain.task.TaskStatus.IN_PROGRESS
 
 class TitleMustNotBeBlankRule : TaskTransitionRule {
 

@@ -1,4 +1,4 @@
-package com.nvoulgaris.taskmanager
+package com.nvoulgaris.taskmanager.domain.task
 
 enum class TaskStatus {
   TODO,
