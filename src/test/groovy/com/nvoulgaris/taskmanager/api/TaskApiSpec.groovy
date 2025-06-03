@@ -110,4 +110,38 @@ class TaskApiSpec extends Specification {
       response.statusCode == HttpStatusCode.valueOf(200)
       response.body == updatedTask
   }
+
+  def "Should return all tasks for a given assignee"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, assigneeId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", IN_PROGRESS, assigneeId, false)
+      List<Task> tasks = [task1, task2]
+
+    and:
+      taskService.getTasksByAssignee(assigneeId) >> tasks
+
+    when:
+      ResponseEntity<List<Task>> response = taskApi.getTasks(assigneeId)
+
+    then:
+      response.statusCode.value() == 200
+      response.body == tasks
+  }
+
+  def "Should return an empty list if user has no tasks"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      List<Task> tasks = []
+
+    and:
+      taskService.getTasksByAssignee(assigneeId) >> tasks
+
+    when:
+      ResponseEntity<List<Task>> response = taskApi.getTasks(assigneeId)
+
+    then:
+      response.statusCode.value() == 200
+      response.body == tasks
+  }
 }

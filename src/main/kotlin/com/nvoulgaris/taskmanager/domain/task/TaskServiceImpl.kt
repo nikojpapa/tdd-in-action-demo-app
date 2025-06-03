@@ -33,4 +33,8 @@ class TaskServiceImpl(
     val updatedTask = taskRepository.save(task)
     return updatedTask
   }
+
+  override fun getTasksByAssignee(assigneeId: UUID): List<Task> {
+    return taskRepository.findByAssigneeId(assigneeId)
+  }
 }

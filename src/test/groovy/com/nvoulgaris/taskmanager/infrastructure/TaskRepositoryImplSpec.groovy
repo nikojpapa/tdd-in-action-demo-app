@@ -39,4 +39,35 @@ class TaskRepositoryImplSpec extends Specification {
     then:
       actualTask == expectedTask
   }
+
+  def "Should return all tasks for a given assignee"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, assigneeId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", TODO, assigneeId, false)
+      Task otherTask = new Task(UUID.randomUUID(), "Other Task", TODO, UUID.randomUUID(), false)
+
+    and:
+      taskRepository.save(task1)
+      taskRepository.save(task2)
+      taskRepository.save(otherTask)
+
+    when:
+      def result = taskRepository.findByAssigneeId(assigneeId)
+
+    then:
+      result.containsAll([task1, task2])
+      result.size() == 2
+  }
+
+  def "Should return an empty list if user has no tasks"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+
+    when:
+      def result = taskRepository.findByAssigneeId(assigneeId)
+
+    then:
+      result.isEmpty()
+  }
 }

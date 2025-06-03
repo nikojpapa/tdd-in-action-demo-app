@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 import java.util.UUID
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -53,6 +55,12 @@ class TaskApi(
         else -> ResponseEntity.badRequest().body(null)
       }
     }
+  }
+
+  @GetMapping(produces = [APPLICATION_JSON_VALUE])
+  fun getTasks(@RequestParam("assigneeId") assigneeId: UUID): ResponseEntity<List<Task>> {
+    val tasks = taskService.getTasksByAssignee(assigneeId)
+    return ResponseEntity.ok(tasks)
   }
 
   private fun createdTaskResponse(task: Task): ResponseEntity<Task> =

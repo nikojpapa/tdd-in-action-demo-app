@@ -115,4 +115,36 @@ class TaskServiceImplSpec extends Specification {
         }
       }
   }
+
+  def "Should return all tasks for a given assignee"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, assigneeId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", IN_PROGRESS, assigneeId, false)
+      List<Task> tasks = [task1, task2]
+
+    and:
+      taskRepository.findByAssigneeId(assigneeId) >> tasks
+
+    when:
+      def result = taskService.getTasksByAssignee(assigneeId)
+
+    then:
+      result == tasks
+  }
+
+  def "Should return an empty list if user has no tasks"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      List<Task> tasks = []
+
+    and:
+      taskRepository.findByAssigneeId(assigneeId) >> tasks
+
+    when:
+      def result = taskService.getTasksByAssignee(assigneeId)
+
+    then:
+      result == tasks
+  }
 }
