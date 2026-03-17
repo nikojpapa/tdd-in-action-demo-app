@@ -76,4 +76,12 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	testLogging {
+        // This shows the actual assertion failure message
+        events("failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showExceptions = true
+        showCauses = true
+        showStackTraces = false
+    }
 }
