@@ -29,4 +29,21 @@ class UserApiSpec extends Specification {
             response.statusCode == HttpStatusCode.valueOf(400)
             
     }
+
+    def "should register a new user"() {
+        given:
+            UUID id = UUID.randomUUID()
+            String username = "Alice"
+            String password = "123"
+            UserRegistrationRequestDto request = new UserRegistrationRequestDto(username, password)
+            User user = new User(id, username, password)
+        and:
+            userService.create(username, password) >> user
+        when:
+            ResponseEntity<User> response = userApi.register(request)
+        then:
+            response.statusCode == HttpStatusCode.valueOf(201)
+            response.headers.getLocation().toString() == "/users/$id"
+            response.body == user
+    }
 }
