@@ -1,6 +1,7 @@
 package com.nvoulgaris.taskmanager.domain.user
 
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class UserServiceImpl(
@@ -11,6 +12,7 @@ class UserServiceImpl(
         if (existingUsernames.contains(username)) {
             throw UsernameExistsException()
         }
-        throw UnsupportedOperationException()
+        val savedUser = userRepository.save(User(UUID.randomUUID(), username, password))
+        return savedUser
     }
 }

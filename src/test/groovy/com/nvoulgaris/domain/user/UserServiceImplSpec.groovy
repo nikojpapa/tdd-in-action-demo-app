@@ -22,4 +22,22 @@ class UserServiceImplSpec extends Specification {
         then:
             thrown UsernameExistsException
     }
+
+    def "should create a new user"() {
+        given:
+            String aUsername = "Alice"
+            String aPassword = "123"
+        and:
+            userRepository.findAll() >> []
+        when:
+            userService.create(aUsername, aPassword)
+        then:
+            1 * userRepository.save(*_) >> { args -> 
+                with(args[0] as User) {
+                    id != null
+                    username == aUsername
+                    password == aPassword
+                }
+            }
+    }
 }
