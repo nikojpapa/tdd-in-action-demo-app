@@ -35,6 +35,7 @@ class TaskServiceImpl(
   }
 
   override fun findByAssigneeId(assigneeId: UUID): List<Task> {
-    throw UnsupportedOperationException("Not yet implemented")
+    userRepository.findById(assigneeId) ?: throw UserNotExistsException()
+    return taskRepository.findByAssigneeId(assigneeId)
   }
 }

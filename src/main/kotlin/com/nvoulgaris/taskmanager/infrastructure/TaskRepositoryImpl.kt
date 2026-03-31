@@ -17,4 +17,8 @@ class TaskRepositoryImpl : TaskRepository {
 
   override fun findById(taskId: UUID): Task? =
     tasks.firstOrNull { it.id == taskId }
+
+  override fun findByAssigneeId(assigneeId: UUID): List<Task> {
+    throw UnsupportedOperationException("Not yet implemented")
+  }
 }

@@ -115,4 +115,34 @@ class TaskServiceImplSpec extends Specification {
         }
       }
   }
+  def "Should throw an UserNotExistsException when fetching tasks for a non-existent assignee"() {
+    given:
+      UUID nonExistentUserId = UUID.randomUUID()
+
+    and:
+      userRepository.findById(nonExistentUserId) >> null
+
+    when:
+      taskService.findByAssigneeId(nonExistentUserId)
+
+    then:
+      thrown(UserNotExistsException)
+  }
+
+  def "Should return tasks for an existing assignee"() {
+    given:
+      UUID aUserId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, aUserId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", IN_PROGRESS, aUserId, false)
+
+    and:
+      userRepository.findById(aUserId) >> new User(aUserId, "Alice", "123")
+      taskRepository.findByAssigneeId(aUserId) >> [task1, task2]
+
+    when:
+      def tasks = taskService.findByAssigneeId(aUserId)
+
+    then:
+      tasks == [task1, task2]
+  }
 }
