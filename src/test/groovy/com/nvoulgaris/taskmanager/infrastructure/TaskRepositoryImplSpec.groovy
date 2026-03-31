@@ -39,4 +39,23 @@ class TaskRepositoryImplSpec extends Specification {
     then:
       actualTask == expectedTask
   }
+  def "Should fetch tasks by assignee ID"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, assigneeId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", TODO, assigneeId, false)
+      Task task3 = new Task(UUID.randomUUID(), "Task 3", TODO, UUID.randomUUID(), false)
+
+    and:
+      taskRepository.save(task1)
+      taskRepository.save(task2)
+      taskRepository.save(task3)
+
+    when:
+      List<Task> actualTasks = taskRepository.findByAssigneeId(assigneeId)
+
+    then:
+      actualTasks.size() == 2
+      actualTasks.containsAll([task1, task2])
+  }
 }
