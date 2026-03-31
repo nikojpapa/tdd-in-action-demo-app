@@ -33,4 +33,8 @@ class TaskServiceImpl(
     val updatedTask = taskRepository.save(task)
     return updatedTask
   }
+
+  override fun findByAssigneeId(assigneeId: UUID): List<Task> {
+    throw UnsupportedOperationException("Not yet implemented")
+  }
 }

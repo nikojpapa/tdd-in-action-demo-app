@@ -110,4 +110,45 @@ class TaskApiSpec extends Specification {
       response.statusCode == HttpStatusCode.valueOf(200)
       response.body == updatedTask
   }
+
+  def "Should return an empty list when no tasks are assigned to the specified user"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+
+    and:
+      taskService.findByAssigneeId(assigneeId) >> []
+
+    when:
+      ResponseEntity<List<Task>> response = taskApi.getTasks(assigneeId)
+
+    then:
+      response.statusCode == HttpStatusCode.valueOf(200)
+      response.body == []
+  }
+
+  def "Should return a list of tasks assigned to a specific user"() {
+    given:
+      UUID assigneeId = UUID.randomUUID()
+      Task task1 = new Task(UUID.randomUUID(), "Task 1", TODO, assigneeId, false)
+      Task task2 = new Task(UUID.randomUUID(), "Task 2", IN_PROGRESS, assigneeId, false)
+      List<Task> expectedTasks = [task1, task2]
+
+    and:
+      taskService.findByAssigneeId(assigneeId) >> expectedTasks
+
+    when:
+      ResponseEntity<List<Task>> response = taskApi.getTasks(assigneeId)
+
+    then:
+      response.statusCode == HttpStatusCode.valueOf(200)
+      response.body == expectedTasks
+  }
+
+  def "Should return a 400 when no assigneeId is specified"() {
+    when:
+      ResponseEntity<List<Task>> response = taskApi.getTasks(null)
+
+    then:
+      response.statusCode == HttpStatusCode.valueOf(400)
+  }
 }
