@@ -64,6 +64,10 @@ class TaskApi(
 
   @GetMapping
   fun getTasks(@RequestParam(required = false) assigneeId: UUID?): ResponseEntity<List<Task>> {
-    throw UnsupportedOperationException("Not yet implemented")
+    if (assigneeId == null) {
+      return ResponseEntity.badRequest().build()
+    }
+    val tasks = taskService.findByAssigneeId(assigneeId)
+    return ResponseEntity.ok(tasks)
   }
 }
